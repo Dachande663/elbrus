@@ -15,15 +15,7 @@ class KnexDatasource {
 
 		var deferred = Promise.defer();
 
-		// @todo query
-
-		var query = this.db
-			.select()
-			.from(schema.db_table)
-			.orderBy('created', 'desc')
-			.offset(params.offset)
-			.limit(params.limit)
-		;
+		var query = this._buildQuery(schema, params, false);
 
 		query
 			.then(function(rows){
@@ -40,7 +32,26 @@ class KnexDatasource {
 	}
 
 
-	totalEntities(schema, params) {}
+	totalEntities(schema, params) {
+
+		var deferred = Promise.defer();
+
+		var query = this._buildQuery(schema, params, true);
+
+		query.count('* as total');
+
+		query
+			.then(function(rows){
+				deferred.resolve(rows[0].total);
+			})
+			.catch(function(err){
+				deferred.reject(err);
+			})
+		;
+
+		return deferred.promise;
+
+	}
 
 
 	findEntity(schema, id) {
@@ -156,6 +167,24 @@ class KnexDatasource {
 		;
 
 		return deferred.promise;
+
+	}
+
+
+	_buildQuery(schema, params, isCount) {
+
+		var query = this.db
+			.select()
+			.from(schema.db_table)
+		;
+
+		if(isCount !== true) {
+			query.orderBy('created', 'desc');
+			query.offset(params.offset);
+			query.limit(params.limit);
+		}
+
+		return query;
 
 	}
 
