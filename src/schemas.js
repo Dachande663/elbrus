@@ -7,6 +7,9 @@ var SchemaCollection = require('./models/SchemaCollection');
 var schemas = new SchemaCollection();
 
 
+// @todo load schemas from db
+
+
 schemas.addSchema(
 	new Schema('pet', { db: KnexDatasource })
 		.addField(new Fields.IdField('id'))
