@@ -1,6 +1,6 @@
 function CreateEntityCtrl(req, res){
 
-	req.schema.createEntity(req.query)
+	req.schema.createEntity(req.body)
 		.then(function(entity){
 			res.json(entity);
 		})

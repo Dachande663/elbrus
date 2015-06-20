@@ -1,6 +1,6 @@
 function UpdateEntityCtrl(req, res){
 
-	req.schema.updateEntity(req.entity, req.query)
+	req.schema.updateEntity(req.entity, req.body)
 		.then(function(entity){
 			res.json(entity);
 		})

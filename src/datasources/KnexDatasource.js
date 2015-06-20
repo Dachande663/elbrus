@@ -80,21 +80,9 @@ class KnexDatasource {
 	}
 
 
-	createEntity(schema, input) {
+	createEntity(schema, data) {
 
 		var deferred = Promise.defer();
-		var data = {};
-
-		// @todo validate
-
-		for(var i = 0, len = schema.fieldsMap.length; i < len; i++) {
-
-			var field = schema.fields[schema.fieldsMap[i]];
-			var value = field.parseValue(input);
-
-			data[field.key] = value;
-
-		}
 
 		this.db(schema.db_table)
 			.insert(data)
@@ -102,6 +90,7 @@ class KnexDatasource {
 				deferred.resolve(data);
 			})
 			.catch(function(err){
+				console.log(err);
 				deferred.reject(err);
 			})
 		;
@@ -111,37 +100,20 @@ class KnexDatasource {
 	}
 
 
-	updateEntity(schema, entity, input) {
+	updateEntity(schema, entity, data) {
 
 		var deferred = Promise.defer();
-		var data = entity;
-		var update = {};
-
-		// @todo validate
-
-		for(var i = 0, len = schema.fieldsMap.length; i < len; i++) {
-
-			var field = schema.fields[schema.fieldsMap[i]];
-
-			if( ! (field.key in input) ) {
-				continue;
-			}
-
-			var value = field.parseValue(input);
-
-			data[field.key] = value;
-			update[field.key] = value;
-
-		}
 
 		this.db(schema.db_table)
 			.where('id', entity.id)
 			.limit(1)
 			.update(data)
 			.then(function(row){
+				// @todo full object?
 				deferred.resolve(data);
 			})
 			.catch(function(err){
+				console.log(err);
 				deferred.reject(err);
 			})
 		;

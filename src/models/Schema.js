@@ -54,13 +54,17 @@ class Schema {
 
 
 	// Create an entity
-	createEntity(data) {
+	createEntity(input) {
+		var data = this._parseEntity(input, true);
+		console.log(data);
 		return this.db.createEntity(this, data);
 	}
 
 
 	// Update an entity
-	updateEntity(entity, data) {
+	updateEntity(entity, input) {
+		var data = this._parseEntity(input, false);
+		console.log(data);
 		return this.db.updateEntity(this, entity, data);
 	}
 
@@ -68,6 +72,36 @@ class Schema {
 	// Delete an entity
 	deleteEntity(entity) {
 		return this.db.deleteEntity(this, entity);
+	}
+
+
+
+	_parseEntity(input, is_new) {
+
+		var fields = this.fields;
+		var map = this.fieldsMap;
+
+		var data = {};
+
+		// @todo validate
+		// @todo defaults
+		// @todo updates
+
+		for(var i = 0, len = map.length; i < len; i++) {
+
+			var field = fields[map[i]];
+
+			if(is_new === false && ! (field.key in input) ) {
+				continue;
+			}
+
+			var value = field.parseValue(input);
+
+			data[field.key] = value;
+		}
+
+		return data;
+
 	}
 
 
