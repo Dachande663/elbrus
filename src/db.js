@@ -1,18 +1,15 @@
-var mysql = require('mysql2');
+var Knex = require('knex');
 
 
-var connection = {
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_DATABASE
-};
+var db = Knex({
+	client: 'mysql2',
+	connection: {
+		user: process.env.DB_USER,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_DATABASE,
+		host: process.env.DB_HOST
+	}
+});
 
 
-if(process.env.DB_SOCKET) {
-	connection.socketPath = process.env.DB_SOCKET;
-} else {
-	connection.host = process.env.DB_HOST;
-}
-
-
-module.exports = mysql.createConnection(connection);
+module.exports = db;

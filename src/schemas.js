@@ -3,12 +3,15 @@ var Schema = require('./models/Schema');
 var SchemaCollection = require('./models/SchemaCollection');
 
 
-var db = require('./db');
+var MySQL = require('./datasources/mysql');
+var db = new MySQL(require('./db'));
+
+
 var schemas = new SchemaCollection();
 
 
 schemas.addSchema(
-	new Schema('pets', db)
+	new Schema('pet', { db: db })
 		.addField(new Fields.IdField('id'))
 		.addField(new Fields.VarcharField('name'))
 		.addField(new Fields.IntegerField('age'))
@@ -17,14 +20,14 @@ schemas.addSchema(
 );
 
 
-schemas.addSchema(
-	new Schema('weights', db)
-		.addField(new Fields.IdField('id'))
-		.addField(new Fields.IntegerField('weight'))
-		.addField(new Fields.DatetimeField('taken'))
-		.addField(new Fields.DatetimeField('created'))
-		.addField(new Fields.DatetimeField('updated'))
-);
+// schemas.addSchema(
+// 	new Schema('weight', db)
+// 		.addField(new Fields.IdField('id'))
+// 		.addField(new Fields.IntegerField('weight'))
+// 		.addField(new Fields.DatetimeField('taken'))
+// 		.addField(new Fields.DatetimeField('created'))
+// 		.addField(new Fields.DatetimeField('updated'))
+// );
 
 
 module.exports = schemas;

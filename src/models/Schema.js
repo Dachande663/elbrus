@@ -1,40 +1,75 @@
 var Promise = require('bluebird');
+var Query = require('./Query');
 
 
+// A Schema is a grouping of fields
 class Schema {
 
-	// @todo db_table
 
-	constructor(key, db) {
+	// Constructor
+	constructor(key, opts) {
+
 		this.key = key;
-		this.db = db;
+		this.url_slug = this.key + 's';
+
+		this.name_singular = this.key;
+		this.name_plural = this.key + 's';
+
+		this.db = opts.db;
+		this.db_table = this.key + 's';
+
 		this.fields = {};
 		this.fieldsMap = [];
+
 	}
 
-	addField(f) {
-		this.fields[f.key] = f;
-		this.fieldsMap.push(f.key);
+
+	// Add a field definition to this schema
+	addField(field) {
+		this.fields[field.key] = field;
+		this.fieldsMap.push(field.key);
 		return this;
 	}
 
-	getEntity(id) {
 
-		var deferred = Promise.defer();
-
-		this.db.query('select * from ' + this.key + ' where id = ? limit 1', id, function(err, rows){
-
-			if(rows.length === 0) {
-				return deferred.reject('Entity not found');
-			}
-
-			return deferred.resolve(rows[0]);
-
-		});
-
-		return deferred.promise;
-
+	// Get entities
+	getEntities(input) {
+		var query = new Query();
+		query.parse(input);
+		return this.db.getEntities(this, query);
 	}
+
+
+	// Get total number of entities
+	totalEntities(params) {
+		var params = this._generateParams(input);
+		return this.db.totalEntities(this, params);
+	}
+
+
+	// Get a single entity
+	findEntity(id) {
+		return this.db.findEntity(this, id);
+	}
+
+
+	// Create an entity
+	createEntity(data) {
+		return this.db.createEntity(this, data);
+	}
+
+
+	// Update an entity
+	updateEntity(entity, data) {
+		return this.db.updateEntity(this, entity, data);
+	}
+
+
+	// Delete an entity
+	deleteEntity(entity) {
+		return this.db.deleteEntity(this, entity);
+	}
+
 
 }
 

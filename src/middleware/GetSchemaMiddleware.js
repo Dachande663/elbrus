@@ -1,4 +1,4 @@
-var schemas = require('../schemas');
+var Schemas = require('../schemas');
 
 
 function GetSchemaMiddlware(req, res, next) {
@@ -8,15 +8,14 @@ function GetSchemaMiddlware(req, res, next) {
 		return;
 	}
 
-	var schema = schemas.getSchema(req.params.collection);
-
-	if(!schema) {
-		res.status(404).json('Collection not found');
-	}
-
-	req.schema = schema;
-
-	next();
+	Schemas.getSchemaByUrlSlug(req.params.collection)
+		.then(function(schema){
+			req.schema = schema;
+			next();
+		})
+		.catch(function(err){
+			res.status(404).json('Schema not found');
+		});
 
 }
 

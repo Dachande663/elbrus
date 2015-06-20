@@ -5,12 +5,13 @@ function GetEntityMiddleware(req, res, next) {
 		return;
 	}
 
-	req.schema.getEntity(req.params.id)
+	req.schema.findEntity(req.params.id)
 		.then(function(entity){
 			req.entity = entity;
 			next();
 		})
 		.catch(function(err){
+			console.log(err);
 			res.status(404).json('Entity not found');
 		});
 
