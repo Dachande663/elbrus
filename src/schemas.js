@@ -20,14 +20,14 @@ schemas.addSchema(
 );
 
 
-// schemas.addSchema(
-// 	new Schema('weight', db)
-// 		.addField(new Fields.IdField('id'))
-// 		.addField(new Fields.IntegerField('weight'))
-// 		.addField(new Fields.DatetimeField('taken'))
-// 		.addField(new Fields.DatetimeField('created'))
-// 		.addField(new Fields.DatetimeField('updated'))
-// );
+schemas.addSchema(
+	new Schema('weight', { db: db })
+		.addField(new Fields.IdField('id'))
+		.addField(new Fields.IntegerField('weight'))
+		.addField(new Fields.DatetimeField('taken'))
+		.addField(new Fields.DatetimeField('created'))
+		.addField(new Fields.DatetimeField('updated'))
+);
 
 
 module.exports = schemas;
