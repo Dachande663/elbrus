@@ -1,8 +1,13 @@
-class ValidationError {
+var BaseError = require('./BaseError');
+
+
+class ValidationError extends BaseError {
 
 	constructor(errors) {
-		this.errors = errors;
+		super(errors);
+		this.code = 400;
 	}
+
 
 }
 

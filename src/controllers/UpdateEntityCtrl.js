@@ -1,4 +1,4 @@
-var ValidationError = require('../errors/ValidationError');
+var BaseError = require('../errors/BaseError');
 
 
 function UpdateEntityCtrl(req, res){
@@ -8,10 +8,10 @@ function UpdateEntityCtrl(req, res){
 			res.json(entity);
 		})
 		.catch(function(err){
-			if(err instanceof ValidationError) {
-				res.status(400).json(err.errors);
+			if(err instanceof BaseError) {
+				res.status(err.getCode()).json(err.getOutput());
 			} else {
-				res.status(500).json('Error');
+				res.status(500).json('An unexpected error occurred');
 			}
 		});
 
