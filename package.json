@@ -17,9 +17,10 @@
   },
   "devDependencies": {
     "babel": "^5.6.1",
+    "mocha": "^2.2.5",
     "should": "^7.0.1"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel/register"
   }
 }
