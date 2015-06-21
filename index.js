@@ -2,6 +2,8 @@ require('dotenv').load();
 
 var express = require('express');
 var app = express();
+app.disable('etag');
+app.disable('x-powered-by');
 
 
 var Elbrus = require('./src');
