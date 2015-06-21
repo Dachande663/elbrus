@@ -1,7 +1,9 @@
 Elbrus
 ======
 
-Elbrus is a powerful Backend-as-a-Service for your apps. Part of the Peaks
+[![Build Status](https://travis-ci.org/Dachande663/elbrus.png)](https://travis-ci.org/Dachande663/elbrus)
+
+Elbrus is a powerful Backend-as-a-Service for your apps, part of the Peaks
 platform.
 
 **This is not production ready, DO NOT USE!**
@@ -21,13 +23,16 @@ platform.
 1.0 Introduction
 ----------------
 
-Lorem ipsum
+Elbrus provides a powerful REST interface to a backing datastore. It is
+designed to be used as a backend for a range of apps. The current featureset
+is purposefully minimal while the API is being finalised.
 
 
 2.0 Installation
 ----------------
 
-Lorem ipsum
+When this is ready it'll be on npm. It's an express app, so can be mounted
+within other express-compatible apps.
 
 
 3.0 Todo
