@@ -55,9 +55,9 @@ class DatetimeField extends BaseField {
 	}
 
 
-	getUpdateValue(input, entity) {
+	getUpdateValue(input, entity, keyExists) {
 
-		if(this.key in input) {
+		if(keyExists) {
 			return { value: input[this.key] };
 		}
 

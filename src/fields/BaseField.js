@@ -43,7 +43,7 @@ class BaseField {
 			return this.getCreateValue();
 		}
 
-		return this.getUpdateValue(input, entity);
+		return this.getUpdateValue(input, entity, keyExists);
 
 	}
 
@@ -55,9 +55,13 @@ class BaseField {
 	}
 
 
-	getUpdateValue(input, entity) {
+	getUpdateValue(input, entity, keyExists) {
 
-		return { value: input[this.key] };
+		if(keyExists) {
+			return { value: input[this.key] };
+		}
+
+		return { skip: true };
 
 	}
 
