@@ -55,17 +55,17 @@ class Schema {
 
 	// Create an entity
 	createEntity(input) {
-		var data = this._parseEntity(input, true);
-		console.log(data);
-		return this.db.createEntity(this, data);
+		var data = this._parseEntity(input, null);
+		// console.log(data);
+		// return this.db.createEntity(this, data);
 	}
 
 
 	// Update an entity
 	updateEntity(entity, input) {
-		var data = this._parseEntity(input, false);
-		console.log(data);
-		return this.db.updateEntity(this, entity, data);
+		var data = this._parseEntity(input, entity);
+		// console.log(data);
+		// return this.db.updateEntity(this, entity, data);
 	}
 
 
@@ -75,13 +75,14 @@ class Schema {
 	}
 
 
-
-	_parseEntity(input, is_new) {
+	// Parse input data into a valid entity
+	_parseEntity(input, entity) {
 
 		var fields = this.fields;
 		var map = this.fieldsMap;
 
 		var data = {};
+		var errors = {};
 
 		// @todo validate
 		// @todo defaults
@@ -91,14 +92,19 @@ class Schema {
 
 			var field = fields[map[i]];
 
-			if(is_new === false && ! (field.key in input) ) {
+			var result = field.getValueFromInput(input, entity);
+
+			if('value' in result) {
+				data[field.db_column] = result.value;
+			} else if('error' in result && result.error !== null) {
+				errors[field.key] = result.error;
+			} else if('skip' in result && result.skip === true) {
 				continue;
 			}
 
-			var value = field.parseValue(input);
-
-			data[field.key] = value;
 		}
+
+		console.log(data, errors);
 
 		return data;
 
