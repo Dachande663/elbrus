@@ -13,7 +13,7 @@ var schemas = new SchemaCollection();
 schemas.addSchema(
 	new Schema('pet', { db: KnexDatasource })
 		.addField(new Fields.IdField('id', { protected: true }))
-		.addField(new Fields.VarcharField('name'))
+		.addField(new Fields.VarcharField('name', { required: true }))
 		.addField(new Fields.IntegerField('age'))
 		.addField(new Fields.DatetimeField('created', { protected: true, auto_insert: true }))
 		.addField(new Fields.DatetimeField('updated', { protected: true, auto_update: true }))
@@ -23,8 +23,7 @@ schemas.addSchema(
 schemas.addSchema(
 	new Schema('weight', { db: KnexDatasource })
 		.addField(new Fields.IdField('id', { protected: true, auto: true }))
-		.addField(new Fields.IdField('user_id'))
-		.addField(new Fields.IntegerField('weight'))
+		.addField(new Fields.IntegerField('weight', { required: true }))
 		.addField(new Fields.DatetimeField('taken', { auto_insert: true }))
 		.addField(new Fields.DatetimeField('created', { protected: true, auto_insert: true }))
 		.addField(new Fields.DatetimeField('updated', { protected: true, auto_update: true }))

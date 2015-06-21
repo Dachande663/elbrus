@@ -11,8 +11,8 @@ class BaseField {
 		this.required = ('required' in opts) ? !!opts.required : false;
 		this.default = ('default' in opts) ? opts.default : null;
 
-		this.db_column = this.key;
-		this.db_index = false;
+		// this.db_column = this.key;
+		// this.db_index = false;
 		// this.db_search = false;
 		// this.db_unique = false;
 

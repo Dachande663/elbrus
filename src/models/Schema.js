@@ -55,17 +55,27 @@ class Schema {
 
 	// Create an entity
 	createEntity(input) {
-		var data = this._parseEntity(input, null);
-		// console.log(data);
-		// return this.db.createEntity(this, data);
+
+		var self = this;
+
+		return this._parseEntity(input, null)
+			.then(function(data){
+				return self.db.createEntity(self, data);
+			});
+
 	}
 
 
 	// Update an entity
 	updateEntity(entity, input) {
-		var data = this._parseEntity(input, entity);
-		// console.log(data);
-		// return this.db.updateEntity(this, entity, data);
+
+		var self = this;
+
+		return this._parseEntity(input, entity)
+			.then(function(data){
+				return self.db.updateEntity(self, entity, data);
+			});
+
 	}
 
 
@@ -78,15 +88,13 @@ class Schema {
 	// Parse input data into a valid entity
 	_parseEntity(input, entity) {
 
+		var deferred = Promise.defer();
 		var fields = this.fields;
 		var map = this.fieldsMap;
 
 		var data = {};
 		var errors = {};
-
-		// @todo validate
-		// @todo defaults
-		// @todo updates
+		var hasErrors = false;
 
 		for(var i = 0, len = map.length; i < len; i++) {
 
@@ -95,18 +103,23 @@ class Schema {
 			var result = field.getValueFromInput(input, entity);
 
 			if('value' in result) {
-				data[field.db_column] = result.value;
+				data[field.key] = result.value;
 			} else if('error' in result && result.error !== null) {
 				errors[field.key] = result.error;
+				hasErrors = true;
 			} else if('skip' in result && result.skip === true) {
 				continue;
 			}
 
 		}
 
-		console.log(data, errors);
+		if(hasErrors) {
+			deferred.reject(errors);
+		} else {
+			deferred.resolve(data);
+		}
 
-		return data;
+		return deferred.promise;
 
 	}
 
