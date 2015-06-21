@@ -1,7 +1,11 @@
 var Fields = require('./fields');
-var KnexDatasource = require('./datasources/KnexDatasource');
 var Schema = require('./models/Schema');
 var SchemaCollection = require('./models/SchemaCollection');
+
+
+var db = require('./db');
+var KnexDatasource = require('./datasources/KnexDatasource');
+var datasource = new KnexDatasource(db);
 
 
 var schemas = new SchemaCollection();
@@ -11,7 +15,7 @@ var schemas = new SchemaCollection();
 
 
 schemas.addSchema(
-	new Schema('pet', { db: KnexDatasource })
+	new Schema('pet', { db: datasource })
 		.addField(new Fields.IdField('id', { protected: true }))
 		.addField(new Fields.VarcharField('name', { required: true }))
 		.addField(new Fields.IntegerField('age'))
@@ -21,7 +25,7 @@ schemas.addSchema(
 
 
 schemas.addSchema(
-	new Schema('weight', { db: KnexDatasource })
+	new Schema('weight', { db: datasource })
 		.addField(new Fields.IdField('id', { protected: true, auto: true }))
 		.addField(new Fields.IntegerField('weight', { required: true }))
 		.addField(new Fields.DatetimeField('taken', { auto_insert: true }))

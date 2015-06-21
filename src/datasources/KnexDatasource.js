@@ -1,5 +1,4 @@
 var Promise = require('bluebird');
-var db = require('../db');
 
 
 class KnexDatasource {
@@ -190,4 +189,4 @@ class KnexDatasource {
 }
 
 
-module.exports = new KnexDatasource(db);
+module.exports = KnexDatasource;
