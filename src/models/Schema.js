@@ -35,7 +35,7 @@ class Schema {
 
 	// Get entities
 	getEntities(input) {
-		var query = new Query();
+		var query = new Query(this);
 		query.parse(input);
 		return this.db.getEntities(this, query);
 	}
@@ -43,8 +43,9 @@ class Schema {
 
 	// Get total number of entities
 	totalEntities(params) {
-		var params = this._generateParams(input);
-		return this.db.totalEntities(this, params);
+		var query = new Query(this);
+		query.parse(input);
+		return this.db.totalEntities(this, query);
 	}
 
 

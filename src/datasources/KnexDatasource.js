@@ -150,8 +150,34 @@ class KnexDatasource {
 			.from(schema.db_table)
 		;
 
+		for(var i = 0, len = params.wheres.length; i < len; i++) {
+
+			var where = params.wheres[i];
+
+			switch(where.operator) {
+
+				case '$eq':
+					query = query.where(where.field, where.value);
+					break;
+
+				case '$gte':
+					query = query.where(where.field, '>=', where.value);
+					break;
+
+				case '$lt':
+					query = query.where(where.field, '<', where.value);
+					break;
+
+				case '$in':
+					query = query.whereIn(where.field, where.value);
+					break;
+
+			}
+
+		}
+
 		if(isCount !== true) {
-			query.orderBy('created', 'desc');
+			query.orderBy(params.order_col, params.order_dir);
 			query.offset(params.offset);
 			query.limit(params.limit);
 		}
