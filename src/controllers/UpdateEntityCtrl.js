@@ -1,3 +1,6 @@
+var ValidationError = require('../errors/ValidationError');
+
+
 function UpdateEntityCtrl(req, res){
 
 	req.schema.updateEntity(req.entity, req.body)
@@ -5,8 +8,11 @@ function UpdateEntityCtrl(req, res){
 			res.json(entity);
 		})
 		.catch(function(err){
-			console.log(err);
-			res.status(500).json('Error');
+			if(err instanceof ValidationError) {
+				res.status(400).json(err.errors);
+			} else {
+				res.status(500).json('Error');
+			}
 		});
 
 }

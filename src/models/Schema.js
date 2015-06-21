@@ -1,5 +1,6 @@
 var Promise = require('bluebird');
 var Query = require('./Query');
+var ValidationError = require('../errors/ValidationError');
 
 
 // A Schema is a grouping of fields
@@ -56,12 +57,10 @@ class Schema {
 	// Create an entity
 	createEntity(input) {
 
-		var self = this;
-
 		return this._parseEntity(input, null)
 			.then(function(data){
-				return self.db.createEntity(self, data);
-			});
+				return this.db.createEntity(this, data);
+			}.bind(this));
 
 	}
 
@@ -69,12 +68,10 @@ class Schema {
 	// Update an entity
 	updateEntity(entity, input) {
 
-		var self = this;
-
 		return this._parseEntity(input, entity)
 			.then(function(data){
-				return self.db.updateEntity(self, entity, data);
-			});
+				return this.db.updateEntity(this, entity, data);
+			}.bind(this));
 
 	}
 
@@ -114,7 +111,7 @@ class Schema {
 		}
 
 		if(hasErrors) {
-			deferred.reject(errors);
+			deferred.reject(new ValidationError(errors));
 		} else {
 			deferred.resolve(data);
 		}
