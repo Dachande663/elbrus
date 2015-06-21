@@ -41,4 +41,32 @@ describe('VarcharField', function(){
 	});
 
 
+	it('Will use input if not editable', function(){
+		var field = new VarcharField('name', { editable: false });
+		var result = field.getValueFromInput({ name: 'world' }, null);
+		should.equal('world', result.value);
+	});
+
+
+	it('Will ignore update if not editable', function(){
+		var field = new VarcharField('name', { editable: false });
+		var result = field.getValueFromInput({ name: 'alpha' }, { name: 'bravo' });
+		should(true, result.skip);
+	});
+
+
+	it('Will error if required', function(){
+		var field = new VarcharField('name', { required: true });
+		var result = field.getValueFromInput({ }, null);
+		should.equal('required', result.error);
+	});
+
+
+	it('Will not error if required', function(){
+		var field = new VarcharField('name', { required: true });
+		var result = field.getValueFromInput({}, {});
+		should(true, result.skip);
+	});
+
+
 });

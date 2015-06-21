@@ -10,6 +10,14 @@ class VarcharField extends BaseField {
 			return { skip: true };
 		}
 
+		if(this.required === true && entity === null && keyExists === false) {
+			return { error: 'required' };
+		}
+
+		if(this.editable !== true && entity !== null && keyExists === true) {
+			return { error: 'uneditable' };
+		}
+
 		var value = input[this.key];
 
 		if(typeof value !== 'string') {
