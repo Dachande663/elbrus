@@ -8,7 +8,7 @@ app.disable('x-powered-by');
 
 var Elbrus = require('./src');
 var api = Elbrus();
-app.use('/v1', api);
+app.use('/' + process.env.API_PATH, api);
 
 
 app.get('/', function(req, res){
