@@ -4,19 +4,6 @@ var IntegerField = require('./IntegerField');
 var VarcharField = require('./VarcharField');
 
 
-// nullable
-// required
-// db_column
-// db_index
-// db_search
-// db_unique
-// default
-// editable
-
-
-// validation
-
-
 // IdField
 
 // CharField

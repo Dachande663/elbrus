@@ -14,5 +14,12 @@
     "moment": "^2.10.3",
     "mysql2": "^0.15.7",
     "winston": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel": "^5.6.1",
+    "should": "^7.0.1"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:babel/register"
   }
 }

@@ -6,7 +6,7 @@ class VarcharField extends BaseField {
 
 	getUpdateValue(input, entity, keyExists) {
 
-		if(!keyExists) {
+		if(!keyExists || this.protected) {
 			return { skip: true };
 		}
 
