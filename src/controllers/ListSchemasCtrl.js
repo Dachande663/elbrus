@@ -8,7 +8,7 @@ function ListSchemasCtrl(req, res){
 
 			var collections = [];
 
-			for (var property in schemas) {
+			for(var property in schemas) {
 				var schema = schemas[property];
 				collections.push(schema.url_slug);
 			}
