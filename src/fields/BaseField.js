@@ -57,11 +57,11 @@ class BaseField {
 
 	getUpdateValue(input, entity, keyExists) {
 
-		if(keyExists) {
-			return { value: input[this.key] };
+		if(!keyExists) {
+			return { skip: true };
 		}
 
-		return { skip: true };
+		return { value: input[this.key] };
 
 	}
 

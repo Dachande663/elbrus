@@ -11,10 +11,8 @@ function CreateEntityCtrl(req, res){
 					  + '/' + process.env.API_PATH + '/'
 					  + req.schema.url_slug + '/' + entity.id;
 
-			res
-				.status(201)
-				.location(url)
-				.json(entity);
+			res.status(201).location(url).json(entity);
+
 		})
 		.catch(function(err){
 			if(err instanceof BaseError) {

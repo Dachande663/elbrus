@@ -2,8 +2,11 @@ var BaseField = require('./BaseField');
 var crypto = require('crypto');
 
 
+var id_length = 16;
+
+
 function generateUniqueId() {
-	return crypto.randomBytes(8).toString('hex').slice(0, 16);
+	return crypto.randomBytes(8).toString('hex').slice(0, id_length);
 }
 
 
@@ -38,11 +41,17 @@ class IdField extends BaseField {
 			return { skip: true };
 		}
 
-		if(keyExists) {
-			return { value: input[this.key] };
+		if(!keyExists) {
+			return { skip: true };
 		}
 
-		return { skip: true };
+		var value = input[this.key];
+
+		if(typeof value !== 'string' || value.length !== id_length) {
+			return { error: 'format' };
+		}
+
+		return { value: value };
 
 	}
 

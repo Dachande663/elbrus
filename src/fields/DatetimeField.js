@@ -58,7 +58,7 @@ class DatetimeField extends BaseField {
 	getUpdateValue(input, entity, keyExists) {
 
 		if(keyExists) {
-			return { value: input[this.key] };
+			return this._parseInput(input[input.key]);
 		}
 
 		if(this.auto_update === true) {
@@ -66,6 +66,19 @@ class DatetimeField extends BaseField {
 		}
 
 		return { skip: true };
+
+	}
+
+
+	_parseInput(value) {
+
+		var value = moment(value);
+
+		if(!value.isValid()) {
+			return { error: 'format' };
+		}
+
+		return { value: value.toISOString() };
 
 	}
 
