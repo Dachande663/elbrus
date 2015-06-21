@@ -1,4 +1,5 @@
 var BaseError = require('../errors/BaseError');
+var logger = require('../logger');
 
 
 function CreateEntityCtrl(req, res){

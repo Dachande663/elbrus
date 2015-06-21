@@ -1,3 +1,6 @@
+var logger = require('../logger');
+
+
 function DeleteEntityCtrl(req, res){
 
 	req.schema.deleteEntity(req.entity)
@@ -5,7 +8,8 @@ function DeleteEntityCtrl(req, res){
 			res.json({ deleted:true });
 		})
 		.catch(function(err){
-			res.status(500).json('DB error');
+			logger.error(err);
+			res.status(500).json('An unexpected error occurred');
 		});
 
 }

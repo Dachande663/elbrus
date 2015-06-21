@@ -1,4 +1,5 @@
 var BaseError = require('../errors/BaseError');
+var logger = require('../logger');
 
 
 function UpdateEntityCtrl(req, res){
@@ -11,6 +12,7 @@ function UpdateEntityCtrl(req, res){
 			if(err instanceof BaseError) {
 				res.status(err.getCode()).json(err.getOutput());
 			} else {
+				logger.error(err);
 				res.status(500).json('An unexpected error occurred');
 			}
 		});
