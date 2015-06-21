@@ -5,6 +5,10 @@
   "author": "Luke Lanchester",
   "license": "MIT",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Dachande663/elbrus.git"
+  },
   "dependencies": {
     "bluebird": "^2.9.30",
     "body-parser": "^1.13.0",
