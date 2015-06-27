@@ -15,9 +15,9 @@
     "dotenv": "^1.1.0",
     "express": "^4.12.4",
     "knex": "^0.8.6",
+    "lodash": "^3.9.3",
     "moment": "^2.10.3",
-    "mysql2": "^0.15.7",
-    "winston": "^1.0.0"
+    "mysql2": "^0.15.7"
   },
   "devDependencies": {
     "babel": "^5.6.1",

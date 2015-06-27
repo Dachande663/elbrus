@@ -1,23 +1,23 @@
-var BaseError = require('../errors/BaseError');
-var logger = require('../logger');
+function updateEntityCtrl(req, res) {
 
+	var schema = req.elbrus.schema;
+	var entity = req.elbrus.entity;
 
-function UpdateEntityCtrl(req, res){
-
-	req.schema.updateEntity(req.entity, req.body)
-		.then(function(entity){
-			res.json(entity);
+	schema.parser.parseForUpdate(req.body, entity)
+		.then(function(result){
+			entity = result.entity;
+			return schema.repository.updateEntity(req.elbrus.entity._id, result.data);
 		})
-		.catch(function(err){
-			if(err instanceof BaseError) {
-				res.status(err.getCode()).json(err.getOutput());
-			} else {
-				logger.error(err);
-				res.status(500).json('An unexpected error occurred');
-			}
+		.then(function(row){
+			return schema.transformer.entity(entity);
+		})
+		.then(function(entity){
+			res.json({
+				item: entity
+			});
 		});
 
 }
 
 
-module.exports = UpdateEntityCtrl;
+module.exports = updateEntityCtrl;

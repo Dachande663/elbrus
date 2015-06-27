@@ -1,22 +1,23 @@
 require('dotenv').load();
 
+
 var express = require('express');
 var app = express();
 app.disable('etag');
 app.disable('x-powered-by');
 
 
-var Elbrus = require('./src');
-var api = Elbrus();
-app.use('/' + process.env.API_PATH, api);
-
-
 app.get('/', function(req, res){
 	res.json({
 		name: 'Elbrus',
-		version: 1
+		version: 4
 	});
 });
+
+
+var Elbrus = require('./src');
+var api = Elbrus();
+app.use('/' + process.env.API_PATH, api);
 
 
 var server = app.listen(process.env.API_PORT || 3001, function(){

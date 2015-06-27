@@ -1,18 +1,14 @@
-var logger = require('../logger');
+function deleteEntityCtrl(req, res) {
 
+	var schema = req.elbrus.schema;
 
-function DeleteEntityCtrl(req, res){
-
-	req.schema.deleteEntity(req.entity)
-		.then(function(){
-			res.json({ deleted:true });
-		})
-		.catch(function(err){
-			logger.error(err);
-			res.status(500).json('An unexpected error occurred');
+	schema.repository.deleteEntity(req.elbrus.entity._id).then(function(result){
+		res.json({
+			deleted: result
 		});
+	});
 
 }
 
 
-module.exports = DeleteEntityCtrl;
+module.exports = deleteEntityCtrl;

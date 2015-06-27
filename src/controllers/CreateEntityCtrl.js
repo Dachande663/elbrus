@@ -1,28 +1,24 @@
-var BaseError = require('../errors/BaseError');
-var logger = require('../logger');
+function createEntityCtrl(req, res) {
 
+	var schema = req.elbrus.schema;
+	var row;
 
-function CreateEntityCtrl(req, res){
-
-	req.schema.createEntity(req.body)
-		.then(function(entity){
-
-			var url = req.protocol + '://' + req.get('host')
-					  + '/' + process.env.API_PATH + '/'
-					  + req.schema.url_slug + '/' + entity.id;
-
-			res.status(201).location(url).json(entity);
-
+	schema.parser.parseForCreate(req.body)
+		.then(function(data){
+			row = data;
+			return schema.repository.createEntity(data);
 		})
-		.catch(function(err){
-			if(err instanceof BaseError) {
-				res.status(err.getCode()).json(err.getOutput());
-			} else {
-				res.status(500).json('An unexpected error occurred');
-			}
+		.then(function(result){
+			return schema.transformer.entity(row);
+		})
+		.then(function(entity){
+			// @todo 201 Location
+			res.json({
+				item: entity
+			});
 		});
 
 }
 
 
-module.exports = CreateEntityCtrl;
+module.exports = createEntityCtrl;
