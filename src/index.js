@@ -1,6 +1,3 @@
-require('dotenv').load();
-
-
 var express = require('express');
 var jsonBody = require('body-parser').json();
 var getSchemaMw = require('./middleware/getSchemaMw');
