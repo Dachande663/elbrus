@@ -4,9 +4,9 @@ var getSchemaMw = require('./middleware/getSchemaMw');
 var getEntityMw = require('./middleware/getEntityMw');
 
 
-function init() {
+function init(app) {
 
-	var app = express();
+	var app = app || express();
 	app.disable('etag');
 	app.disable('x-powered-by');
 
