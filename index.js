@@ -10,12 +10,12 @@ app.disable('x-powered-by');
 app.get('/', function(req, res){
 	res.json({
 		name: 'Elbrus',
-		version: 4
+		version: 1
 	});
 });
 
 
-var Elbrus = require('./src');
+var Elbrus = require('./elbrus');
 var api = Elbrus();
 app.use('/' + process.env.API_PATH, api);
 
